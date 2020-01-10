@@ -1,0 +1,46 @@
+h1,.site-name{
+  //background-image: -webkit-linear-gradient(left, #22c1c3, #fdbb2d 25%, #22c1c3 50%, #fdbb2d 75%, #22c1c3);
+  background-image: -webkit-linear-gradient(left, #2c3e50, #2c3e50 25%, #2c3e50 50%, #2c3e50 75%, #2c3e50);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-background-size: 200% 100%;
+  //-webkit-animation: myGradientChange 4s infinite linear;
+  //animation: myGradientChange 4s infinite linear;
+}
+.card h2{
+  //background-image: -webkit-linear-gradient(left, #333, #22c1c3 25%, #fdbb2d 50%, #22c1c3 75%, #fdbb2d);
+  background-image: -webkit-linear-gradient(left, #333, #eee 25%, #333 50%, #eee 75%, #333);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: myGradientChange 4s infinite linear;
+  animation: myGradientChange 4s infinite linear;
+}
+
+@keyframes myGradientChange  {
+  0%{ background-position: 0 0;}
+  100% { background-position: -100% 0;}
+}
+
+.model-left{
+  background-image: url('./../../public/img/modelLeft.jpg')
+  background-position-y: top;
+  background-position-x: center;
+  background-repeat no-repeat;
+  background-size cover;
+  position: absolute;
+  height: 100%;
+  width: 35%;
+  left: 0;
+}
+.model-right{
+  background-image: url('./../../public/img/modelRight.jpg')
+  background-position-y: top;
+  background-position-x: left;
+  background-repeat no-repeat;
+  background-size cover;
+  position: absolute;
+  height: 100%;
+  width: 35%;
+  right: 0;
+}
