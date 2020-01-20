@@ -114,6 +114,7 @@ module.exports = {
                     children: [
                         ['/NOTE/Front/note1','#NOTE_NOTE1'],
                         ['/NOTE/Front/note2','#NOTE_NOTE2'],
+                        ['/NOTE/Front/note3','#NOTE_NOTE3'],
                         ['/NOTE/Front/Js','#JAVASCRIPT'],
                     ]
                 },
