@@ -115,7 +115,10 @@ module.exports = {
                         ['/NOTE/Front/note1','#NOTE_NOTE1'],
                         ['/NOTE/Front/note2','#NOTE_NOTE2'],
                         ['/NOTE/Front/note3','#NOTE_NOTE3'],
+                        ['/NOTE/Front/css-note','#CSS_NOTE'],
                         ['/NOTE/Front/Js','#JAVASCRIPT'],
+                        ['/NOTE/Front/js-note','#JS_NOTE'],
+                        ['/NOTE/Front/others-note','#OTHERS_NOTE'],
                     ]
                 },
             ],
