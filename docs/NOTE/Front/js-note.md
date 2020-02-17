@@ -153,12 +153,159 @@ instanceof运算符用于判断一个对象的原型链是否存在一个构造�
 			this.type = 'child3';
 		}
 		Child3.prototype = Parent3.prototype;//优化Child3.prototype = Object.create(Parent3.prototype);
-		var child5 = new Child3();
+		var child5 = new Child3();ß
 		console.log(child5 instanceof Parent3);  //无法区分child5是谁的实例化
 		console.log(child5.constructor);    //指向Parent3
     ```
 
     * 继承的几种方式
+
+## &04.闭包 ##
+- 作用域的特殊情况
+1、函数作为参数被传递
+    ```bash
+        //闭包--ß函数作为返回值
+        function create() {
+            let a = 100;
+            return function() {
+                console.log(a)
+            }
+        }
+
+        const fn = create();
+        const a = 200;
+        fn();  //100
+
+    ```
+
+2、函数作为返回值被返回--内存不会被释放
+```bash
+    const a = 100;
+
+	function print(fn) {
+		const a = 200;
+		fn();
+	}
+	function fn() {
+		console.log(a);
+	}
+	print(fn)  //100
+
+ ```
+
+总结：闭包自由变量的查找，是在函数定义的地方，向上级作用域查找，不是在调用的地方！！
+
+- 闭包的实际应用场景举例
+1、隐藏数据--只提供API--例如定义模块，只提供方法，内部细节隐藏
+```bash
+    //闭包隐藏数据，只提供API
+	function createCache() {
+		const data = {};  //闭包中的数据被隐藏，不被外界访问
+		return {
+			set: function(key, val) {
+				data[key] = val;
+			},
+			get: function(key) {
+				return data[key];
+			}
+		}
+	}
+
+	const c = createCache(); //外界无法访问createCache中的data变量
+	c.set('a', 100);
+	console.log(c,get('a'))  //100
+
+ ```
+
+ 2.缓存数据--但是也是缺陷，闭包不会释放内存
+```bash
+    function f1(){
+　　　　var n=999;
+　　　　nAdd=function(){n+=1}
+　　　　function f2(){
+　　　　　　alert(n);
+　　　　}
+　　　　return f2;
+　　}
+
+　　var result=f1();
+
+　　result(); // 999
+
+　　nAdd();
+
+　　result(); // 1000
+ ```
+ 在这里，result实际上是f2,因为result被赋予了全局变量，始终存在内存当中，而f2中的变量又是依附于f1，f1中的变量不会被销毁，一直存在
+
+
+ 3.for循环使用定时器打印问题
+
+ - 影响：变量会常驻内存，得不到释放，闭包不要乱用 
+
+## &05.this ##
+题目：this的不同应用场景，如何取值
+
+纯粹的函数调用、作为函数方法调用、构造函数调用、bind/call/apply调用、ES6 class调用、箭头函数
+
+this取值是在调用时决定的
+```bash
+    const person = {
+		name: 'as',
+		say() {
+			console.log(this)
+		},
+		wait() {
+			console.log(this);    //this指向当前调用对象
+			setTimeout(function() {
+				console.log(this);   //this == window--此时是setTimeout本身触发的执行，相当于window在直接调用
+			})
+		},
+		waitAgain() {
+			console.log(this);     //this指向当前调用对象
+			setTimeout(() => {
+				console.log(this);    //this == person--箭头函数中的this，指向上一级作用域中的this
+			})
+		}
+	}
+```
+
+- 手写一个bind函数-改变this的指向
+```bash
+    function fn1(a, b) {
+		console.log(this);
+		console.log(a, b);
+		return "this is fn1";
+	}
+
+	//模拟bind
+	Function.prototype.bind1 = function() {
+		//将参数拆为数组
+		const args = Array.prototype.slice.call(arguments);
+
+		//获取this--数组第一项
+		const t = args.shift();
+		//fn1.bind中的fn1
+		const self = this;
+
+		return function() {
+			return self.apply(t, args);
+		}
+	}
+	const fn2 = fn1.bind1({x: 100}, 10, 20);
+	const res = fn2();
+	console.log(res);
+```
+
+## &05.同步和异步 ##
+- 同步和异步的区别
+    * js是单线程语言，只能同时做一件事情。
+    * js和DOM渲染共用同一个线程，因为js可修改DOM结构
+    * 遇到等待（网络请求，定时任务）不能卡住--异步，解决单线程等待问题
+    * 通过callback回调函数调用
+- 手写用promise加载一张图片
+- 前端使用异步的场景有哪些
+    网络请求、定时任务
 
 ## &03.说说前端中的事件流 ##
 
