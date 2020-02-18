@@ -656,17 +656,174 @@ ES6推荐使用let声明局部变量。let表示声明变量，const表示声明
 
 ES5中，forEach()、filter()、reduce()、every()、some()都会跳过空位；map()会跳过空位但是会保留这个值，map不改变原数组，产生新数组；concat()返回新的数组
 
+poo、push、unshift、shift--改变原数组
+
+- 数组的哪些方法是纯函数--1、不改变原数组；2、返回一个数组
+concat、map、filter 、slice
+
+- 非纯函数
+push、pop、shift、unshift、forEach、some、every、reduce
+
+- 数组slice和splice
+1、功能区别：slice--切片，从已有数组中返回选定的元素；splice--剪接，从已有数组中删除选定的元素，并插入其他元素
+
+2、参数和返回值：slice返回一个新数组，不会改变原数组；splice返回删除选定的元素，会改变原数组
+
+3、是否纯函数
+
 ## &28.js--typeof ##
 
 typeof null = object---属于js历史bug遗留；
 
 typeof [] = object; --
 
+## &29.js--var和let const的区别 ##
+1、var是ES5的语法，let const是ES6的语法；
+2、let const是块级作用域，var存在变量提升
+3、const通常表示不可变的常量
 
+## &29.typeof能判断哪些类型 ##
+undefined、string、number、boolean、symbol
 
+object--引用类型
 
+function
 
+## &30.列举强制类型转换和隐式类型转换 ##
+强制：parseInt、parseFloat、toString等
+隐式：if、逻辑运算、==、+拼接字符串
 
+## &31.实现一个深度比较 ##
+
+```bash
+//判断对象或数组
+	function isObject(obj) {
+		return typeof obj === 'object' && obj != null
+	}
+	function isEqual(obj1, obj2) {
+		if(!isObject(obj1) || !isObject(obj2)) {
+			return obj1 === obj2;
+		}
+		if(obj1 === obj2) {
+			return true;
+		}
+		//深度比较
+		//1、先列举两个对象的keys
+		const obj1Keys = Object.keys(obj1);
+		const obj2Keys = Object.keys(obj2);
+		if(obj1Keys.length != obj2Keys.length) {
+			return false;
+		}
+		//2、以obj1为基准，和obj2一次递归比较
+		for(let key in obj1) {
+			//比较当前key和val--递归
+			const res = isEqual(obj1[key], obj2[key]);
+			if(!res) {
+				return false;
+			}
+		}
+		//3、全相等
+		return true;
+	}
+```
+
+## &32.解释jsonp原理，为何不是真正的ajax ##
+- ajax通过xmlHttpRequest实现，jsonp通过script标签实现
+
+## &33.documentload 和ready的区别 ##
+- documentload指页面的全部资源加载完才会执行，包括图片、视频等
+- ready指渲染完即可执行，此时图片、视频还可能没有加载完
+
+## &34.函数声明和函数表达式的区别 ##
+- 函数声明会在代码中预加载（类似变量提升），而函数表达式不会
+
+## &35.new Object和Object.create的区别 ##
+- {}等同于new Object()，原型Object.prototype；
+- Object.create(null)没有原型，Object.create({..})可以指定原型
+```bash
+//object
+	var obj = {
+		x: 10
+	}
+	var obj21 = new Object(obj);
+	var obj22 = Object.create(obj);
+	console.log(obj === obj21); //true，new Object创建了一个obj的副本，其完全等于obj
+	console.log(obj === obj22); //false
+	console.log(obj22.__proto__ === obj); // Object.create创建的对象，以传入的参数为其原型
+```
+- 注意：object.assign不是深拷贝，只是第一层的浅拷贝
+
+## &36.如何捕获js中的异常 ##
+- try catch
+- window.onerror --自动捕获
+
+## &37. RAF-requestAnimationFrame ##
+- 需要让动画流畅，setTimeout要手动控制频率，RAF浏览器会自动控制
+- 后台标签或隐藏iframe中，RAF会暂停，而setTimeout依然执行
+
+## &38.如何性能优化，从哪几个方面考虑 ##
+- 原则：多使用内存、缓存，减少计算、减少网络请求
+- 方向：加载页面、页面渲染、页面操作流畅度
+
+## &39.DOM ##
+- DOM本质
+从html语言解析出来的一棵树
+- DOM性能
+1、对DOM查询做缓存
+2、将频繁操作改为一次性操作
+- attribute和propority的区别
+attribute：特性，指html结构中的特性，如id、class等。propority：属性，指DOM元素作为对象，其附加的属性或者内容，如className等
+
+- 事件代理
+在父节点绑定事件，通过事件冒泡，实现子节点事件--代码简洁、减少浏览器内存使用
+
+- 编写一个通用的事件监听函数
+```bash
+//selector--筛选元素选择器--考虑代理
+	function bindEvent(elem, type, selector, fn) {
+		//普通绑定
+		if(fn == null) {
+			fn = selector;
+			selector = null;
+		}
+		elem.addEventListener(type, event => {
+			let target  = event.target;
+			if(selector) {
+				//代理
+				if(target.matches(selector)) {
+					fn.call(target, event);
+				}
+			}else {
+				//普通绑定
+				fn.call(target, event);
+			}
+		})
+	}
+```
+
+## &40.跨源策略 ##
+- ajax请求时，浏览器要求当前网页和server必须同源（安全）
+- 同源：协议、域名、端口，三者必须一致
+- 加载图片 css js可无视同源策略
+- 所有的跨域，都必须经过server端允许和配合
+
+## &41.存储 ##
+- 描述cookie、localStorage、sessionStorage的区别
+容量、API易用性、是否跟随http请求发送出去
+
+cookie--document.cookie,本身用来做客户端与服务端通信
+
+1、存储大小，最大4kb
+
+2、http请求时需要发送到服务器，增加请求数据量
+
+localStorage和sessionStorage
+
+1、HTML5专门为存储设计，最大可存5M
+
+2、API简单易用setItem getItem
+
+3、localStorage数据会永久存储，除非代码或手动删除；sessionStorage数据只存在于当前会话，浏览器关闭则清空
 
 
 
