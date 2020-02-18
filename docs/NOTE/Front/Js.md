@@ -689,6 +689,18 @@ object--引用类型
 
 function
 
+- typeof能干什么
+判断基本类型，比如number、string、boolean，其他的引用类型会返回object；返回字符串，用来说明变量数据类型
+
+- 如果一个对象是数组，该如何判断
+instanceof；arr instanceof Array
+
+- instanceof 原理
+用作判断实例是否属于某种类型；
+
+根据原型链：用来判断实例A的__proto__，是否指向构造函数B的prototype原型对象
+
+
 ## &30.列举强制类型转换和隐式类型转换 ##
 强制：parseInt、parseFloat、toString等
 隐式：if、逻辑运算、==、+拼接字符串
@@ -824,6 +836,10 @@ localStorage和sessionStorage
 2、API简单易用setItem getItem
 
 3、localStorage数据会永久存储，除非代码或手动删除；sessionStorage数据只存在于当前会话，浏览器关闭则清空
+
+## &42.promise ##
+- promise构造函数是同步执行还是异步执行，那么then方法呢
+promise的构造函数是同步执行，then是异步执行
 
 
 
