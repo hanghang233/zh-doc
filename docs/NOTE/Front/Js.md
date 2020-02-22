@@ -689,6 +689,25 @@ object--引用类型
 
 function
 
+- typeof能干什么
+判断基本类型，比如number、string、boolean，其他的引用类型会返回object；返回字符串，用来说明变量数据类型;typeof可以判断function和object
+typeof function == function
+
+typeof object == object
+
+- 如果一个对象是数组，该如何判断
+instanceof；arr instanceof Array
+
+- instanceof 原理
+用作判断实例是否属于某种类型；
+
+根据原型链：用来判断实例A的__proto__，是否指向构造函数B的prototype原型对象
+
+- Object.prototype.toString判断当前对象的类型
+Object.prototype.toString.call(undefined) ; // [object Undefined]
+
+Object.prototype.toString.call(null) ; // [object Null]
+
 ## &30.列举强制类型转换和隐式类型转换 ##
 强制：parseInt、parseFloat、toString等
 隐式：if、逻辑运算、==、+拼接字符串
@@ -825,6 +844,22 @@ localStorage和sessionStorage
 
 3、localStorage数据会永久存储，除非代码或手动删除；sessionStorage数据只存在于当前会话，浏览器关闭则清空
 
+## &42.promise ##
+- promise构造函数是同步执行还是异步执行，那么then方法呢
+promise的构造函数是同步执行，then是异步执行
+
+## &43.箭头函数和普通函数的区别 ##
+普通函数：
+1. this指向被调用时候的对象
+2. 在默认情况下，如果没有找到调用者，this为window
+3. 在严格模式下，没有找到调用者，this为undefined
+4. 使用call/apply/bind，this指向绑定的对象
+
+箭头函数：
+1. this指向函数被定义的时候
+2. 不能用构造函数，不能使用new操作符，否则会报错
+3. 不能使用arguments对象
+4. 不能使用yield命令
 
 
 

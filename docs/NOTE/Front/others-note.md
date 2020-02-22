@@ -154,7 +154,7 @@ https://www.cnblogs.com/smjack/archive/2009/02/24/1396895.html
 
 - 题目：提升页面性能的方法有哪些
 
-    1、压缩资源合并，减少HTTP请求--
+    1、压缩资源合并，减少HTTP请求
 
     2、非核心代码的异步加载--异步加载的方式--异步加载的区别
 
@@ -174,56 +174,13 @@ https://www.cnblogs.com/smjack/archive/2009/02/24/1396895.html
 
     协商缓存：Last-Modified、If-Modified-If-Modified-Since、Etag、If-None-Match
 
-    - 比如：静态资源加hash后缀，根据文件内容计算hash；url和文件内容不变，则会自动触发http缓存机制，返回304
-
     4、预解析DNS--dns-pre-fetch，大部分浏览器的a标签，默认打开预解析；但是如果连接是https，很多浏览器关闭了预解析
 
-    5、使用CDN：如果一个网站用了n个js、n个css，n个图片，把资源放在cdn上，可以更快的把资源解析出来（根据区域来做服务器的处理）
+    5、使用CDN：如果一个网站用了n个js、n个css，n个图片，把资源放在cdn上，可以更快的把资源解析出来
 
-    6、减少资源体积：压缩代码
+## &06.错误监控类 ##
+- 前端错误的分类：即时运行错误(代码错误)、资源加载错误
 
-    7、减少访问次数：合并代码、SSR服务器端渲染、缓存
+## &07.web 安全 ##
+https://github.com/LuckyWinty/fe-weekly-questions/issues/1
 
-    8、节流、防抖
-    - 防抖
-    场景一：监听一个输入框，文字变化后触发change事件--在一定时间之后，用户没有操作，js才会执行
-    ```bash
-    //防抖
-	function debounce(fn, delay =500) {
-		//timer是闭包中--不能被别人修改
-		let timer = null;
-		return function() {
-			if(timer) {
-				clearTimeout(timer);
-			}
-			timer = setTimeout(() => {
-				fn.apply(this, arguments);
-				timer = null;
-			}, delay)
-		}
-	}
-    ```
-    - 节流：使得一定时间内只触发一次函数
-    拖拽一个元素时，要随时拿到该元素被拖拽的位置
-
-## &6.从输入url到渲染出页面的整个过程 ##
-- 加载资源的形式
-    html代码、媒体文件、JavaScript css
-- 加载资源的过程
-- 渲染的过程
-
-1、DNS解析：域名-》IP地址
-
-2、浏览器根据IP地址向服务器发起http请求
-
-3、服务器处理http请求，并返回给浏览器
-
-## &7.window.onload和DOMContentLoaded的区别 ##
-- load：页面的全部资源加载完才能执行，包括图片等资源
-- DOMContentLoaded：页面资源加载完，图片资源等可能没有加载完成
-
-## &8.安全 ##
-- 常见的web前端攻击方式有哪些
-xss跨域请求攻击：插入script标签，通过js获取cookie信息
-
-XSRF：用户点击三方链接，携带自身的身份信息--预防：使用

@@ -484,6 +484,25 @@ https://www.imooc.com/article/50745
 
 2、子元素设置float：left
 
+## &15.margin：auto为什么可以实现垂直居中 ##
+```bash
+div  {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+}
+```
+块状水平元素在默认情况下，如果设置了margin-left/margin-right,padding-left/padding-right,border-left-width/border-right-width等，实际内容区域会响应变窄。
+
+但是，当一个绝对定位元素，其对立定位方向属性同时有具体定位数值的时候，流体特性就发生了。具有流体特性绝对定位元素的margin:auto的填充规则和普通流体元素一模一样，含有以下特性：
+- 如果一侧定值，一侧auto，auto为剩余空间大小；
+- 如果两侧均是auto, 则平分剩余空间
+
 
 
 
