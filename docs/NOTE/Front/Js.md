@@ -208,6 +208,9 @@ checkAge({ age: 18 });    //Hmm.. You don't have an age I guess
 ```bash
 var arr = [1,2,4];
 console.log(typeof arr);    //object
+console.log(typeof NaN);    //number
+console.log(NaN == undefined);  //false
+
 ```
 
 ## &15.深拷贝与浅拷贝的区别- ##
@@ -861,8 +864,16 @@ promise的构造函数是同步执行，then是异步执行
 3. 不能使用arguments对象
 4. 不能使用yield命令
 
+## &44.判断一个数组 ##
+```bash
+var arr = [1,2,3];
+console.log(arr instanceof Array);  //true
+console.log(arr.constructor == Array);  //true
+console.log(Object.prototype.toString.call(arr) == '[object Array]');  //true
 
-
+//ES5方法
+Array.isArray
+```
 
 
 
