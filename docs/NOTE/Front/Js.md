@@ -656,7 +656,7 @@ ES6推荐使用let声明局部变量。let表示声明变量，const表示声明
 
 ES5中，forEach()、filter()、reduce()、every()、some()都会跳过空位；map()会跳过空位但是会保留这个值，map不改变原数组，产生新数组；concat()返回新的数组
 
-poo、push、unshift、shift--改变原数组
+pop、push、unshift、shift--改变原数组
 
 - 数组的哪些方法是纯函数--1、不改变原数组；2、返回一个数组
 concat、map、filter 、slice

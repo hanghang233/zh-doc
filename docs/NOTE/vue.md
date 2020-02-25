@@ -6,7 +6,7 @@ hideFooter: true
 # vue面试题总结 #
 
 ::: tip 契子
-
+- https://juejin.im/post/5e50f5e0f265da5709701cc8
 :::
 
 ## &01.v-show和v-if的区别 ##
@@ -58,3 +58,252 @@ created指实例初始化完成，页面还没有开始渲染；mounted指页面
 作用域插槽：父组件可以获取子组件slot定义的数据，v-slot
 
 ## &08.vue高级特性一  动态组件 ##
+- :is="component-name"
+
+## &08.vue高级特性一  异步组件 ##
+- import函数
+- 按需加载，异步加载大组件
+
+```bash
+components: {
+    FormDemo: () => import('XXXX')
+  }
+```
+
+## &08.vue高级特性一  缓存组件 ##
+- keep-alive：vue层级控制，js对象
+- 频繁切换，不需要重复渲染
+- vue常见性能优化：异步组件、缓存组件、webpack
+
+## &09.vue高级特性一  mixin，抽离公共组件 ##
+- 多个组件有相同的逻辑，抽离出来
+- Vue3 提出的composition API旨在解决这些问题
+
+问题：
+1. 代码来源不明确，不利于阅读
+
+2. 多个mixin可能会出现命名冲突
+
+3. 关系复杂
+
+## &010. vuex的使用##
+- 考察state的基本结构设计
+
+## &011. vue-router##
+- 路由模式（hash、h5 history）
+- 路由配置（动态路由、懒加载）
+
+## &012. vue原理 ##
+- 组件化
+- 响应式
+- vdom和diff
+- 模版编译
+- 渲染过程
+- 前端路由
+
+## &013. vue响应式 ##
+组件data的数据一旦变化，立刻触发视图的更新
+
+核心API-Object.defineProperty
+- 如何实现响应式
+- 缺点（Vue3.0启用Proxy）
+
+Object.defineProperty缺点
+
+    1）深度监听，需要递归到底，一次性计算量大
+
+    2）无法监听新增属性/删除属性（Vue.set Vue.delete）
+
+    3）无法原生监听数组，需要特殊处理
+
+```bash
+    const data = {
+        'name': 'zzz',
+        'age': '21',
+        'info': {
+            'address': 'city',  //属于深度监听
+        },
+        'arr': [1,2,3]
+    }
+
+	//重新定义数组原型
+	const oldArrayProperty = Array.prototype;
+	//创建新对象，扩展新方法不会影响原型
+	const arrProto = Object.create(oldArrayProperty);
+	['push', 'pop', 'shift', 'unshift', 'splice'].forEach(methodName => {
+		arrProto[methodName] = function() {
+			updateView();  //触发视图更新
+			oldArrayProperty[methodName].call(this, ...arguments);
+		}
+	})
+
+	//监听对象属性
+	function observer(target) {
+		if(typeof target !== 'object' || target === null) {
+			//不是对象或数组
+			return target
+		}
+		//
+		if(Array.isArray(target)) {
+			target.__proto__ = arrProto;
+		}
+		//重新定义各个属性
+		for(let key in target) {
+			defineReactive(target, key, target[key]);
+		}
+	}
+
+	//监听对象
+	function defineReactive(target, key, value) {
+		//深度监听
+		observer(value);
+
+		//核心API
+		Object.defineProperty(target, key, {
+			get() {
+				return value
+			},
+			set(newValue) {
+				if(newValue !== value) {
+					//设置新值--深度监听
+					observer(newValue);
+
+					value = newValue;
+					//触发更新视图
+					updateView();
+				}
+			}
+		})
+	}
+
+	//视图更新
+	function updateView() {
+		console.log('触发更新视图')
+	}
+
+	observer(data);
+	console.log(data.name);
+	// data.age = '10';
+	data.arr.push('333');   //数组触发
+```
+
+## &013. 虚拟DOM和diff ##
+- vdom是实现vue和react的重要基石
+    vdom-用JS模拟DOM结构，计算出最小的变更，操作DOM
+- diff算法是vdom中最核心、最关键的部分--时间复杂度O(n)
+    1）只比较同一层级，不跨级比较
+
+    2）tag不相同，则直接删除重建，不再深度比较
+
+    3）tag和key，两者都相同，则认为是相同节点，不再深度比较
+
+## &014. 模板编译 ##
+- with函数，
+    使用with，能改变{}内自由变量的查找方式，当作obj的属性来查找
+
+## &015. vue面试 ##
+- 为何在v-for中使用key
+    必须用key，且不能是indx和random；diff算法中通过tag和key来判断，是否是sameNode；
+    高效的更新虚拟DOM，提高性能
+
+    就地复用策略：列表数据修改的时候，他会根据key值去判断某个值是否修改，如果修改，则会重新渲染这一项，否则复用之前的元素；
+
+    不建议使用index；场景：v-for一个数组，如果中途插入一个元素，会改变这个元素之后的key值，造成无意义的渲染。建议用id这种不会变的值作为key
+
+- 双向数据绑定v-model的实现
+
+- 对mvvm的理解
+
+- computed有何特点
+缓存，data不会不会重新计算，提高性能
+
+- 为何组件data必须是一个函数
+定义的.vue最后是一个类，每次使用.vue是使用一个实例化，data必须是一个函数，形成闭包，对外不可见，也是为了不被污染
+
+- ajax请求应该放在哪个生命周期
+mounted中，dom加载完成之后
+
+- 何时需要使用beforeDestory
+解除自定义事件event.$off，清除定时器，解除自定义的DOM事件，如window scroll等
+
+- vue如何监听数组变化
+Object.defineProperty 不能监听数组变化；重新定义原型，重写push pop等方法，实现监听；Proxy可以原生支持监听数组变化
+
+- 请描述响应式原理
+监听data变化；组件渲染和更新的过程
+
+- Vue为何是异步渲染，$nextTick何用
+异步渲染（以及合并data修改），以提高渲染性能；$nextTick在DOM更新完以后，触发回调
+
+- Vue常见性能优化方式
+1、合理使用v-show和v-if
+
+2、合理使用computed
+
+3、v-for中加key，以及避免和v-if的使用；因为v-for的优先级要高一些，每次循环之后指向v-if性能会下降
+
+4、自定义事件、DOM事件及时销毁
+
+5、合理使用异步组件
+
+6、合理使用keep-alive
+
+7、data层级不要太深--vue内部data监听相关
+
+8、使用vue-loader在开发环境做模版预编译
+
+9、webpack层面的优化
+
+## &016. vue 初次渲染/更新过程 ##
+- 初次渲染过程
+1. 解析模版为render函数（或在开发环境已完成，vue-loader）
+
+2. 触发响应式，监听data属性getter setter
+
+3. 执行render函数，生成vnode，patch（elem，vnode）
+
+- 更新过程
+1. 修改data，触发setter（此前在getter中已被监听）
+
+2. 重新执行render函数，生成newVnode
+
+3. patch(vnode, newVnode)
+
+## &017. vue的生命周期 ##
+- beforeCreate（创建前）：在数据观测和初始化事件还未开始
+- created（创建后）：完成数据观测、属性和方法的运算，初始化事件，$el属性还没有显示出来
+- beforeMount（载入前）：在挂载之前被调用，相关的render函数首次被调用。实例已完成以下的配置：编译模板、把data里面的数据和模板生成html。注意此时还没有挂载到html页面上
+- mounted（载入后）：vm.$el挂载到实例上调用。实例已完成以下：用编译好的html内容替换el属性指向的DOM对象，完成模板中的html渲染到页面上；
+- beforeUpdate（更新前）：在数据更新之前调用
+- updated（更新后）：组件DOM已经更新
+- beforeDestory（销毁前）
+- bestoryed（销毁后）
+
+生命周期的作用：它的生命周期有多个事件钩子，让我们在控制整个VUE实例的过程中更容易形成好的逻辑
+
+## &018. vue实现数据双向绑定的原理 ##
+主要：采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty来劫持各个属性的setter，getter
+
+过程：
+1. 当初始化vue data时，vue将遍历它的每一个属性，用Object.defineProperty将他们转为getter、setter
+
+2. 当只想data 的get时，会将此属性加入到依赖收集当中，如果下次此属性setter触发变化，监听会通知watcher，从而更新视图
+
+注意：object.defineProperty监听不了数组 ，vue里面重写了数组方法达到监听效果
+
+检测变化的注意事项：Vue无法检测到对象属性的添加或删除，由于Vue会在初始化实例时对属性执行getter/setter转化，所以属性必须在data对象上才能让vue将它转为响应式；如果需要，使用Vue.set/delete
+
+
+```bash
+var vm = new Vue({
+  data:{
+    a:1
+  }
+})
+
+// `vm.a` 是响应式的
+
+vm.b = 2
+// `vm.b` 是非响应式的
+
+```
