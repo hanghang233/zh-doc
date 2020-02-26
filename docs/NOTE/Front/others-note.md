@@ -184,3 +184,19 @@ https://www.cnblogs.com/smjack/archive/2009/02/24/1396895.html
 ## &07.web 安全 ##
 https://github.com/LuckyWinty/fe-weekly-questions/issues/1
 
+## &09.浏览器渲染相关 ##
+1.JavaScript会阻塞dom的解析
+
+当解析的过程遇到script标签，会停止当前解析转而去加载script标签当中的脚本；当处理完脚本之后，浏览器便继续解析HTML文档
+
+2.关于jquery中的ready函数
+
+jquery中的ready函数实际上是监听DOMContentLoaded事件，在页面执行完成之后执行，此时页面上的图片、音频资源等可能没有加载完成。这样做的好处是，可以访问到页面上的所有元素，缩短页面的交互时间，提高页面的整体体验
+
+3.把css放头部，把js放在尾部的原因
+
+浏览器中的渲染引擎会尝试尽快在屏幕上显示内容，所以不会等到所有的html元素加载完成才去构建和布局dom树，所以部分内容将被解析并显示。
+
+也就是说，css放在头部，在加载生成dom树的时候，就可以同时对DOM tree进行渲染。这样可以防止闪跳、白屏或者布局混乱
+
+js放在尾部是因为，js可能会改变DOM tree的结构，所以需要一个稳定的DOM tree

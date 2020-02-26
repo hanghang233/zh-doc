@@ -867,7 +867,7 @@ promise的构造函数是同步执行，then是异步执行
 ## &44.判断一个数组 ##
 ```bash
 var arr = [1,2,3];
-console.log(arr instanceof Array);  //true
+console.log(arr instanceof Array);  //true --instanceof只能判断是否是对象的实例，[] instanceof Object为true，所有的对象都是Object的实例 
 console.log(arr.constructor == Array);  //true
 console.log(Object.prototype.toString.call(arr) == '[object Array]');  //true
 
@@ -875,7 +875,34 @@ console.log(Object.prototype.toString.call(arr) == '[object Array]');  //true
 Array.isArray
 ```
 
+## &45.数组对象方法-map、filter、reduce的区别 ##
+map：遍历数组，将每一个数据拿出来做一些变化之后放入新的数组
 
+filter：遍历数组，将每一个返回条件为true的数值放入新数组
 
+reduce：将数组中的元素通过回调函数最后转化为一个值
+
+## &46.代码复用的一些方法 ##
+函数封装、混入mixins、继承、call/apply、复制extend
+
+## &47.require和import有什么区别 ##
+- 遵循规范
+require是AMD规范引用范式，import是es6的一个语法标准，如果要兼容浏览器的话必须转化成es5
+- 调用时间
+require是运行时调用，理论上可以放在文件各种地方；import是编译时调用，必须放在文件开头
+- 本质
+require是赋值过程，其实require的结果就是对象、数字、字符串等；import是解构过程
+```bash
+// CommonJS模块
+let { exists, readFile } = require('fs');
+// 等同于
+let fs = require('fs');
+let exists = fs.exists;
+let readfile = fs.readfile;
+
+// ES6模块
+import { exists, readFile } from 'fs';
+```
+以上require中，整体加载了fs；import中，只加载了fs的两个方法，其他没有加载
 
 
