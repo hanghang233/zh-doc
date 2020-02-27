@@ -905,4 +905,35 @@ import { exists, readFile } from 'fs';
 ```
 以上require中，整体加载了fs；import中，只加载了fs的两个方法，其他没有加载
 
+## &48.for of和for in的区别 ##
+- for in
+1. index索引为字符串型数字，不能进行几何运算
+
+2. 遍历顺序有可能不是按照数组定义的顺序
+
+3. 使用for in会遍历数组的可枚举属性，包括原型。
+
+所以for in更适合遍历对象
+```bash
+Array.prototype.getLen = function() {
+    console.log('getLen');
+  }
+  var myArray = [8,9,10,11,12];
+  myArray.name = 'test';
+
+  for(let index in myArray) {
+    console.log(index);   //0，1，2，3，4，test，getLen
+  }
+```
+备注：Object.keys(myObject)获取对象的实例属性组成的数组，不包括原型或者方法；hasOwnPropery方法可以判断某属性是否是该对象的实例属性
+
+- for of：适合用来遍历数组，返回数组value值，它可以正确的响应break、continue、和return语句
+- 跳出for循环：break，彻底跳出循环，continue，跳出本次循环，return，会报错
+
+## &49.如何实现一个promise，它的实现原理，以及它的两个参数是什么 ##
+
+## &50.promise中第二个参数的reject中执行的方法和promise.catch()都是失败执行的，分别这么写有什么区别，什么情况下会两个都同时用到？##
+
+## &51.map和set的区别，如何实现数组去重 ##
+
 

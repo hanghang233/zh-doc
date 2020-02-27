@@ -200,3 +200,32 @@ jquery中的ready函数实际上是监听DOMContentLoaded事件，在页面执�
 也就是说，css放在头部，在加载生成dom树的时候，就可以同时对DOM tree进行渲染。这样可以防止闪跳、白屏或者布局混乱
 
 js放在尾部是因为，js可能会改变DOM tree的结构，所以需要一个稳定的DOM tree
+
+## &10.常见的浏览器兼容性问题 ##
+1. 不同浏览器的标签默认的外补丁和内补丁不同
+场景：用各个浏览器写，不加样式的情况下，margin和padding的差距比较大
+
+解决：全局添加 *{margin: 0;padding: 0};
+
+2. 使用meta浏览器来调节浏览器的渲染方式，告诉浏览器以哪种内核渲染，360浏览器就是在ie和chrome之间来回切换。
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+3. css3 前缀：用来兼容这些浏览器老版本
+-moz-代表firefox浏览器私有属性/-ms-代表ie浏览器私有属性/-webkit-代表safari、chrome私有属性/-o-代表Opera
+
+4. css3 很多属性不兼容IE8:rgba（用opacity解决）、过渡（用JS动画解决）、background-size
+
+5. 快级属性标签float之后，加上同行有元素设置margin，在IE6显示的margin比设置的大
+
+常见：IE6中后面的一块被顶到下一行
+
+解决：在float的标签样式控制中加入 display:inline;将其转化为行内属性
+
+6. 事件监听的兼容
+场景：IE不支持addEventListener    解决：给IE添加attachEvent
+
+场景：IE6789不支持event.arget     解决：event.srcElement
+
+场景：IE6789不支持e.preventDefault  解决：event.returnValue = false
+
+场景：IE6789不支持e.stopPropagation  解决：event.cancelBubble = false
