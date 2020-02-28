@@ -13,6 +13,7 @@ hideFooter: true
 - https://juejin.im/post/5e166cc5f265da5d57543102
 - https://juejin.im/post/5c64d15d6fb9a049d37f9c20
 - https://juejin.im/post/5d3edad9f265da03a652f133#21-webpack
+- https://juejin.im/post/5e523e726fb9a07c9a195a95
 :::
 
 ## &01.题一--变量提升 ##
@@ -936,4 +937,45 @@ Array.prototype.getLen = function() {
 
 ## &51.map和set的区别，如何实现数组去重 ##
 
+## &52.如何处理多个并行请求 ##
+1. promise.all
 
+2. jquery的$.Deferred方法
+
+3. 设置setInterVal定时器查询
+
+## &53.防抖与节流 ##
+防抖：对于短时间的设置比如500ms，如果事件开始执行，500ms之后事件都没有触发，则开始执行事件；如果500ms之内又触发事件，则从这次开始重新计时
+```bash
+//设置防抖
+  function debounce(fn, delay) {
+    let timer = null;
+    return function() {
+      if(timer) {
+        //正在计时过程，触发了debounce
+        clearTimeout(timer);
+      }
+      timer = setTimeout(fn, delay);
+    }
+
+  }
+```
+节流：如果短时间内大量触发同一个事件，那么在函数执行一次之后，该函数在指定的时间期限内不再工作，直至过了这段时间才生效
+```bash
+//设置节流
+		function throttle(fn, delay) {
+			let valid = true;
+			return function() {
+				if(!valid) {
+					return false;
+				}
+				//执行函数
+				valid = false;
+				setTimeout(() => {
+					fn();
+					valid = true
+				}, delay)
+			}
+		}
+```
+## &54.说一说js的作用域，es6的块级作用域 ##
