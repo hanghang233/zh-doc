@@ -313,3 +313,47 @@ vm.b = 2
 真实DOM的操作，一般都会对某块元素的整体重新渲染
 
 采用虚拟DOM的话，当数据变化的时候，只需要局部刷新变化的位置就好了；虚拟DOM进行频繁修改，然后一次性比较并修改真实DOM中需要改的部分，最后并在真实DOM中进行排版与重绘，减少过多DOM节点排版与重绘损耗
+
+## &020. vue无法监听数组变化的情况 ##
+1. 利用索引值直接设置数组时
+
+解决：Vue.set 或者 vm.arr.splice
+
+2. 修改数组的长度时
+
+解决：vm.items.splice(newLength)
+
+## &021. computed和watch的区别和运用的场景 ##
+computed：计算属性，依赖于其他的属性值，并且computed的值有缓存，只有它依赖的属性值发生改变，下一次获取computed的值时才会重新计算computed的值
+
+watch：更多的是观察作用，类似于某些数据的监听回调，每当监听的数据变化时都会执行回调进行后续操作
+
+场景：
+
+1. 需要进行数据计算，并且依赖于其他数据时；可以利用computed的缓存特性，避免每次获取值时，都要重新计算
+
+2. 当数据变化时执行异步或开销较大的操作时，使用watch
+
+## &022. vue-router路由模式有几种 ##
+vue-router有3种路由模式：hash、history、abstract；
+
+hash：使用URL hash值来做路由，支持所有浏览器，包括不支持HTML5 History Api的浏览器
+- hash值的改变，都会在浏览器的访问历史增加一个记录，因此我们能通过浏览器的回退、前进按钮控制hash的切换
+- 可以使用hashchange事件来监听hash值的变化，从而对页面进行跳转
+
+history：依赖HTML5 History API和服务器配置
+- history.pushState()和history.replaceState()，这两个API可以在不进行刷新的情况下，操作浏览器的历史记录
+
+## &023. vue-router中的导航钩子 ##
+三种方式可以植入导航
+1. 全局导航
+
+router.beforeEach(to, from, next)/router.afterEach(to, from)
+
+2. 单个路由独享
+
+在路由配置时直接定义
+
+3. 组件级
+
+beforeRouterEnter、beforeRouteUpdate、beforeRouteLeave

@@ -520,3 +520,28 @@ input有一个autocomplete属性，默认是on，其含义代表是否让浏览�
 3. 如果是前端问题，那么根据给出的js异常之类的排查
 
 ## &19. 前端如何监控错误 ##
+
+## &20. position跟display、overflow、float这些特性相互叠加后会怎么样 ##
+
+类似于优先机制：position:absolute/fixed优先级最高，有他们咋，float不起作用，display需要调整；
+
+## &21. 移动端300ms延时的原因，如何处理##
+因为以前移动端双击可以缩放或者滑动，所以为了区分是点击还是双击，加了300ms的延迟
+
+解决方案：
+
+1. css touch-action将其置为none，即可移除目标元素的300ms延迟；缺点：新属性，可能存在浏览器兼容（设置为none，android机无法滑动，ios可正常滑动）
+
+2. fastclick原理：在检测到touchend事件的时候，会通过DOM自定义事件立即出发模拟一个click事件，并把浏览器在300ms之后真正的click事件阻止掉
+
+3. 如果设置viewport meta的值，有一个user-scalable=no，浏览器也是会马上触发点击事件
+
+## &22. 对于连续的中文输入有哪些事件 ##
+
+使用DOM3以下3种复合事件
+
+1. compositionstart：触发于一段文字的输入之前，
+
+2. compositionupdate：正插入新的字符
+
+3. compisitionend：插入的所有字符

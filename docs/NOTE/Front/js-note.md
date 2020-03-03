@@ -84,6 +84,17 @@ instanceof运算符用于判断一个对象的原型链是否存在一个构造�
     3、构造函数中的this指向新对象，并调用构造函数
 
     4、如果构造函数无返回值，或者不是引用类型，返回新对象，否则为构造函数的返回值
+    ```bash
+    function objectFactory() {
+			var obj = {},
+			Constructor = [].shift.call(arguments);
+			//Constructor是构造函数
+			obj.__proto__ = Constructor.prototype;  
+			var ret = Constructor.apply(obj, arguments);
+			return typeof ret === 'object' ? ret : obj;
+		}
+    ```
+
 
 - new Object和Object.create的不同
 
@@ -320,5 +331,15 @@ this取值是在调用时决定的
 
 垃圾回收机制方法：标记清除、计数引用
 
+编码可以做的优化
+
+1. 避免重复创建对象
+
+2. 在适当的时候解除引用，是为页面获得更好性能的一个重要方式
+
+3. 尽量避免使用全局变量
+
 ## &06.说一下commonjs、AMD和CMD ##
+
+## &07.函数柯里化 ##
 
