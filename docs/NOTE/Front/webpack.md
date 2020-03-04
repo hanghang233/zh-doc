@@ -188,7 +188,8 @@ webpack是一个打包模块化JavaScript的工具，在webpack里面一切文�
 webpack可以看作是模块打包机：分析项目结构，找到JavaScript模块以及其它的一些浏览器不能直接运行的拓展语言（Scss，TypeScript等），并将其打包为合适的格式以供浏览器使用。
 
 ## &11.面试之--什么是loader，什么是plugins ##
-loaders是用来告诉webpack如何转化处理某一类型的文件，并且引入到打包的文件中；plugins自定义webpack打包过程的方式，一个插件是含有apply方法的一个对象，通过这个方法可以参与到整个webpack打包的各个流程(生命周期)。
+loaders是用于对模块源码的转换，用来告诉webpack如何转化处理某一类型的文件，并且引入到打包的文件中；
+plugins自定义webpack打包过程的方式，一个插件是含有apply方法的一个对象，通过这个方法可以参与到整个webpack打包的各个流程(生命周期)。从打包优化和压缩，到重新定义环境变量；
 
 常见的loaders；
 

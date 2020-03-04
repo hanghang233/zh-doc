@@ -334,6 +334,35 @@ watch：更多的是观察作用，类似于某些数据的监听回调，每当
 
 2. 当数据变化时执行异步或开销较大的操作时，使用watch
 
+3. watch监听某个对象：可以设置deep为true，可以监听到对象所有属性的修改；如果只是监听对象某个属性的变化，有以下两种方式：
+
+```bash
+watch: {
+     'queryData.name': {
+         handler: function() {
+            //do something
+         },
+     }
+}
+
+```
+可以巧用计算属性和watch结合
+```bash
+computed: {
+    getName: function() {
+    	return this.queryData.name
+    }
+}
+watch: {
+     getName: {
+         handler: function() {
+            //do something
+         },
+     }
+}
+
+```
+
 ## &022. vue-router路由模式有几种 ##
 vue-router有3种路由模式：hash、history、abstract；
 
@@ -357,3 +386,10 @@ router.beforeEach(to, from, next)/router.afterEach(to, from)
 3. 组件级
 
 beforeRouterEnter、beforeRouteUpdate、beforeRouteLeave
+
+## &024. vue keep-alive ##
+vue内置组件，能在组件切换的过程将状态保留在内存，防止重复渲染DOM
+
+属性：include（字符串或正则表达式，只有名称匹配的组件会被缓存）、exclude（字符串或正则表达式，名称匹配的组件不会被缓存）、max（数字，最多可以缓存多少组件实例）
+
+- actived：挂载后和更新前被调用，如果该组件中没有使用缓存，actived不起作用。所以当我们运用了组件缓存时，如果想每次切换都发送一个请假，需要把请求函数写在actived中。页面离开的时候deactivated执行，再切回来actived执行

@@ -229,3 +229,24 @@ js放在尾部是因为，js可能会改变DOM tree的结构，所以需要一�
 场景：IE6789不支持e.preventDefault  解决：event.returnValue = false
 
 场景：IE6789不支持e.stopPropagation  解决：event.cancelBubble = false
+
+## &11.cookie和session的区别 ##
+1. 存储位置不同
+
+cookie是存放在客户端的，session是存放在服务器
+
+2. 存储容量
+
+单个cookie保存的数据《=4kb，一个站点最多保存20个cookie；对于session来说并没有上限，但出于对服务器端性能考虑，session内不要存放过多的东西，并且设置session删除机制
+
+3. 存储方式不对
+
+cookie只能保管ASCII字符串，并需要通过编码方式存储为Unicode字符或者二进制；session能够存储任何类型的数据
+
+4. 隐私策略不同
+
+cookie对客户端是可见的，所以不安全；session存储在服务器，对客户端是透明的，不存在敏感泄漏的风险
+
+5. 跨域支持不同
+
+cookie支持跨域访问；session不支持跨域访问
